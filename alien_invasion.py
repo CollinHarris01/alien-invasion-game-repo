@@ -73,9 +73,12 @@ class AlienInvasion:
         """Start a new game when the player clicks Play."""
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if button_clicked and not self.game_active:
+            # Reset the game settings.
+            self.settings.initialize_dynamic_settings()
+
             # Reset game statistics.
             self.stats.reset_stats()
-            self.game_active = True
+            #self.game_active = True
 
             # Get rid of any remaining bullets and aliens.
             self.bullets.empty()
@@ -87,6 +90,9 @@ class AlienInvasion:
 
             # Hide the mouse cursor.
             pygame.mouse.set_visible(False)
+
+            # Start the game.
+            self.game_active = True
 
     def _check_keydown_events(self, event):
         """Respond to keypresses."""
@@ -135,6 +141,7 @@ class AlienInvasion:
         if not self.aliens:
             self.bullets.empty()
             self._create_fleet()
+            self.settings.increase_speed()
 
     def _ship_hit(self):
         """Respond to the ship being hit by an alien."""
